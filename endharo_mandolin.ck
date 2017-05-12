@@ -2,7 +2,7 @@
 
 Mandolin m => dac;
 1 => m.gain;
-0.12 => float tempo;
+0.1 => float tempo;
 
 // shreeraga
 // sa ri ga ma pa da ni sa
@@ -464,8 +464,8 @@ fun void play_instrument1() {
 
 SndBuf dhwani => dac;
 2 => dhwani.gain;
-string voice[80];
 
+string voice[80];
 // array of wav files at resp. midi note indexes
 me.dir() + "/HeSings/maleVoice/0.SA.wav" => voice[61];
 me.dir() + "/HeSings/maleVoice/2.RE2.wav" => voice[63];
@@ -479,8 +479,39 @@ me.dir() + "/HeSings/maleVoice/14.RE2HI.wav" => voice[75];
 me.dir() + "/HeSings/maleVoice/19.NI1LO.wav" => voice[59];
 me.dir() + "/HeSings/maleVoice/17.PALO.wav" => voice[56];
 
+string harmonium[80];
+// array of wav files at resp. midi note indexes
+me.dir() + "/harmonium/sa.wav" => harmonium[61];
+me.dir() + "/harmonium/ri2.wav" => harmonium[63];
+me.dir() + "/harmonium/ga2.wav" => harmonium[64];
+me.dir() + "/harmonium/ma1.wav" => harmonium[66];
+me.dir() + "/harmonium/pa.wav" => harmonium[68];
+me.dir() + "/harmonium/da2.wav" => harmonium[70];
+me.dir() + "/harmonium/ni2.wav" => harmonium[71];
+me.dir() + "/harmonium/sahi.wav" => harmonium[73];
+me.dir() + "/harmonium/ri2hi.wav" => harmonium[75];
+me.dir() + "/harmonium/ni2lo.wav" => harmonium[59];
+me.dir() + "/harmonium/palo.wav" => harmonium[56];
+
+
+// couldnt find lower and hgher notes here. fail
+string female[80];
+// array of wav files at resp. midi note indexes
+me.dir() + "/female/sa.wav" => female[61];
+me.dir() + "/female/ri2.wav" => female[63];
+me.dir() + "/female/ga2.wav" => female[64];
+me.dir() + "/female/ma1.wav" => female[66];
+me.dir() + "/female/pa.wav" => female[68];
+me.dir() + "/female/da2.wav" => female[70];
+me.dir() + "/female/ni2.wav" => female[71];
+me.dir() + "/female/sahi.wav" => female[73];
+me.dir() + "/female/ri2hi.wav" => female[75];
+me.dir() + "/female/ni2lo.wav" => female[59];
+me.dir() + "/female/palo.wav" => female[56];
+
+
 fun void play_swara(int note, int duration) {
-	voice[note] => dhwani.read;
+	harmonium[note] => dhwani.read;
 	0 => dhwani.pos;
 	duration * tempo::second => now;
 }
@@ -502,7 +533,7 @@ fun void play_voice() {
 // spawn shreads from functions
 // optionally, Machine.add(another_file.ck) can be used
 spork ~play_voice();
-spork ~play_instrument1();
+//spork ~play_instrument1();
 
 // wait for all sporks by an infinite loop
 // as advised in chuck manual page 65
