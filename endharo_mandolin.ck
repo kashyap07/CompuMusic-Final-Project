@@ -1,5 +1,3 @@
-// write basic swaras here
-
 Moog m => dac;
 1 => m.gain;
 0.12 => float tempo;
@@ -530,10 +528,89 @@ fun void play_voice() {
 	}
 }
 
+SndBuf t1 => dac;
+SndBuf t2 => dac;
+SndBuf t3 => dac;
+SndBuf t4 => dac;
+SndBuf t5 => dac;
+
+0.12 * 2 => float t_tempo;
+
+string tabla[20];
+me.dir() + "/tabla/dha.wav" => tabla[0];
+me.dir() + "/tabla/dhin.wav" => tabla[1];
+me.dir() + "/tabla/na.wav" => tabla[2];
+me.dir() + "/tabla/ka.wav" => tabla[3];
+me.dir() + "/tabla/tin.wav" => tabla[4];
+
+fun void play_tabla() {	
+	while (true) {
+		// dhin
+		tabla[1] => t2.read;
+		0 => t2.pos;
+		2 * t_tempo::second => now;
+		
+		// dha
+		tabla[0] => t1.read;
+		0 => t1.pos;
+		1 * t_tempo::second => now;
+		
+		// dhin
+		0 => t2.pos;
+		2 * t_tempo::second => now;
+		
+		// dhin
+		0 => t2.pos;
+		1 * t_tempo::second => now;
+		
+		// na
+		tabla[2] => t3.read;
+		0 => t3.pos;
+		1 * t_tempo::second => now;
+		
+		// ka
+		tabla[3] => t4.read;
+		0 => t4.pos;
+		1 * t_tempo::second => now;
+		
+		
+		// dhin
+		tabla[1] => t2.read;
+		0 => t2.pos;
+		2 * t_tempo::second => now;
+		
+		// dha
+		tabla[0] => t1.read;
+		0 => t1.pos;
+		1 * t_tempo::second => now;
+		
+		// tin
+		tabla[4] => t5.read;
+		0 => t5.pos;
+		2 * t_tempo::second => now;
+		
+		// tin
+		0 => t5.pos;
+		1 * t_tempo::second => now;
+		
+		// na
+		tabla[2] => t3.read;
+		0 => t3.pos;
+		1 * t_tempo::second => now;
+		
+		// ka
+		tabla[3] => t4.read;
+		0 => t4.pos;
+		1 * t_tempo::second => now;
+	}
+}
+
+
 // spawn shreads from functions
 // optionally, Machine.add(another_file.ck) can be used
 spork ~play_voice();
 spork ~play_instrument1();
+spork ~play_tabla();
 
 // wait for all sporks by an infinite loop
 // as   in chuck manual page 65
