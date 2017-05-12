@@ -1,11 +1,7 @@
 // write basic swaras here
 
 Mandolin m => dac;
-
-// positive gain sounds bad most of the times
 1 => m.gain;
-
-//need to find a better tempo for the voice
 0.12 => float tempo;
 
 // shreeraga
@@ -467,6 +463,7 @@ fun void play_instrument1() {
 }
 
 SndBuf dhwani => dac;
+2 => dhwani.gain;
 string voice[80];
 
 // array of wav files at resp. midi note indexes
@@ -503,13 +500,12 @@ fun void play_voice() {
 }
 
 // spawn shreads from functions
-// Optionally, Machine.add(another_file.ck) can be used
+// optionally, Machine.add(another_file.ck) can be used
 spork ~play_voice();
 spork ~play_instrument1();
 
-//Wait for all sporks by an infinite loop
-// As advised in chuck manual page 65
-while(true)
-{
+// wait for all sporks by an infinite loop
+// as advised in chuck manual page 65
+while(true) {
     1::second=>now;
 }
