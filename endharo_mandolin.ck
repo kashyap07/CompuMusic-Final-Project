@@ -1,7 +1,11 @@
 // write basic swaras here
 
 Mandolin m => dac;
-2 => m.gain;
+
+// positive gain sounds bad most of the times
+1 => m.gain;
+
+//need to find a better tempo for the voice
 0.12 => float tempo;
 
 // shreeraga
@@ -498,6 +502,14 @@ fun void play_voice() {
 	}
 }
 
-//spork ~play_instrument1();
-//spork ~play_voice();
-play_voice();
+// spawn shreads from functions
+// Optionally, Machine.add(another_file.ck) can be used
+spork ~play_voice();
+spork ~play_instrument1();
+
+//Wait for all sporks by an infinite loop
+// As advised in chuck manual page 65
+while(true)
+{
+    1::second=>now;
+}
