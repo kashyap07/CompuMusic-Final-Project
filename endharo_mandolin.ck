@@ -2,7 +2,7 @@
 
 Mandolin m => dac;
 2 => m.gain;
-0.088 => float tempo;
+0.12 => float tempo;
 
 // shreeraga
 // sa ri ga ma pa da ni sa
@@ -447,15 +447,57 @@ for (0=>int i; i<=11; i++) {
 }
 */
 
-for (0=>int i; i<=total-1; i++) {
-	swara[i][0] => int note1;
-	if (note1 == 0) {
-		<<< "silence" >>>;
-		0 => m.noteOn;
-		swara[i][1] * tempo::second => now;
-	} else {
-		swara[i][0] => Std.mtof => m.freq;
-		1.0 => m.noteOn;
-		swara[i][1] * tempo::second => now;
+fun void play_instrument1() {
+	for (0=>int i; i<=total-1; i++) {
+		swara[i][0] => int note;
+		if (note == 0) {
+			<<< "silence" >>>;
+			0 => m.noteOn;
+			swara[i][1] * tempo::second => now;
+		} else {
+			swara[i][0] => Std.mtof => m.freq;
+			1.0 => m.noteOn;
+			swara[i][1] * tempo::second => now;
+		}
 	}
 }
+
+SndBuf dhwani => dac;
+string voice[80];
+
+// array of wav files at resp. midi note indexes
+me.dir() + "/HeSings/maleVoice/0.SA.wav" => voice[61];
+me.dir() + "/HeSings/maleVoice/2.RE2.wav" => voice[63];
+me.dir() + "/HeSings/maleVoice/3.GA1.wav" => voice[64];
+me.dir() + "/HeSings/maleVoice/5.MA1.wav" => voice[66];
+me.dir() + "/HeSings/maleVoice/7.PA.wav" => voice[68];
+me.dir() + "/HeSings/maleVoice/9.DA2.wav" => voice[70];
+me.dir() + "/HeSings/maleVoice/10.N1.wav" => voice[71];
+me.dir() + "/HeSings/maleVoice/12.SAHI.wav" => voice[73];
+me.dir() + "/HeSings/maleVoice/14.RE2HI.wav" => voice[75];
+me.dir() + "/HeSings/maleVoice/19.NI1LO.wav" => voice[59];
+me.dir() + "/HeSings/maleVoice/17.PALO.wav" => voice[56];
+
+fun void play_swara(int note, int duration) {
+	voice[note] => dhwani.read;
+	0 => dhwani.pos;
+	duration * tempo::second => now;
+}
+
+fun void play_voice() {
+	for (0=>int i; i<=total-1; i++) {
+		swara[i][0] => int note1;
+		if (note1 == 0) {
+			<<< "silence" >>>;
+			0 => m.noteOn;
+			swara[i][1] * tempo::second => now;
+		} else {
+			swara[i][1] => int duration;
+			play_swara(note1, duration);
+		}
+	}
+}
+
+//spork ~play_instrument1();
+//spork ~play_voice();
+play_voice();
