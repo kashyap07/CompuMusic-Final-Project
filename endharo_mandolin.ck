@@ -1,8 +1,8 @@
 // write basic swaras here
 
 Mandolin m => dac;
-20 => m.gain;
-0.88 => float tempo;
+2 => m.gain;
+0.088 => float tempo;
 
 // shreeraga
 // sa ri ga ma pa da ni sa
