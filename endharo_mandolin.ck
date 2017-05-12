@@ -1,8 +1,8 @@
 // write basic swaras here
 
-Mandolin m => dac;
+Moog m => dac;
 1 => m.gain;
-0.1 => float tempo;
+0.12 => float tempo;
 
 // shreeraga
 // sa ri ga ma pa da ni sa
@@ -455,7 +455,7 @@ fun void play_instrument1() {
 			0 => m.noteOn;
 			swara[i][1] * tempo::second => now;
 		} else {
-			swara[i][0] => Std.mtof => m.freq;
+			swara[i][0]-6 => Std.mtof => m.freq;
 			1.0 => m.noteOn;
 			swara[i][1] * tempo::second => now;
 		}
@@ -463,7 +463,7 @@ fun void play_instrument1() {
 }
 
 SndBuf dhwani => dac;
-2 => dhwani.gain;
+3 => dhwani.gain;
 
 string voice[80];
 // array of wav files at resp. midi note indexes
@@ -511,7 +511,7 @@ me.dir() + "/female/palo.wav" => female[56];
 
 
 fun void play_swara(int note, int duration) {
-	harmonium[note] => dhwani.read;
+	female[note] => dhwani.read;
 	0 => dhwani.pos;
 	duration * tempo::second => now;
 }
@@ -533,10 +533,10 @@ fun void play_voice() {
 // spawn shreads from functions
 // optionally, Machine.add(another_file.ck) can be used
 spork ~play_voice();
-//spork ~play_instrument1();
+spork ~play_instrument1();
 
 // wait for all sporks by an infinite loop
-// as advised in chuck manual page 65
+// as   in chuck manual page 65
 while(true) {
     1::second=>now;
 }
