@@ -1,5 +1,5 @@
-Moog m => dac;
-1 => m.gain;
+// voice for swaras
+
 0.12 => float tempo;
 
 // shreeraga
@@ -430,82 +430,22 @@ Moog m => dac;
 
 swara.cap()=> int total;
 
-
-/*
-for (0=>int i; i<=5; i++) {
-	aroha[i][0] => Std.mtof => m.freq;
-	1.0 => m.noteOn;
-	0.3::second => now;
-}
-
-for (0=>int i; i<=11; i++) {
-	avaroha[i][0] => Std.mtof => m.freq;
-	1.0 => m.noteOn;
-	0.3::second => now;
-}
-*/
-
-fun void play_instrument1() {
-	for (0=>int i; i<=total-1; i++) {
-		swara[i][0] => int note;
-		if (note == 0) {
-			<<< "silence" >>>;
-			0 => m.noteOn;
-			swara[i][1] * tempo::second => now;
-		} else {
-			swara[i][0]-6 => Std.mtof => m.freq;
-			1.0 => m.noteOn;
-			swara[i][1] * tempo::second => now;
-		}
-	}
-}
-
 SndBuf dhwani => dac;
 3 => dhwani.gain;
 
-string voice[80];
-// array of wav files at resp. midi note indexes
-me.dir() + "/HeSings/maleVoice/0.SA.wav" => voice[61];
-me.dir() + "/HeSings/maleVoice/2.RE2.wav" => voice[63];
-me.dir() + "/HeSings/maleVoice/3.GA1.wav" => voice[64];
-me.dir() + "/HeSings/maleVoice/5.MA1.wav" => voice[66];
-me.dir() + "/HeSings/maleVoice/7.PA.wav" => voice[68];
-me.dir() + "/HeSings/maleVoice/9.DA2.wav" => voice[70];
-me.dir() + "/HeSings/maleVoice/10.N1.wav" => voice[71];
-me.dir() + "/HeSings/maleVoice/12.SAHI.wav" => voice[73];
-me.dir() + "/HeSings/maleVoice/14.RE2HI.wav" => voice[75];
-me.dir() + "/HeSings/maleVoice/19.NI1LO.wav" => voice[59];
-me.dir() + "/HeSings/maleVoice/17.PALO.wav" => voice[56];
-
-string harmonium[80];
-// array of wav files at resp. midi note indexes
-me.dir() + "/harmonium/sa.wav" => harmonium[61];
-me.dir() + "/harmonium/ri2.wav" => harmonium[63];
-me.dir() + "/harmonium/ga2.wav" => harmonium[64];
-me.dir() + "/harmonium/ma1.wav" => harmonium[66];
-me.dir() + "/harmonium/pa.wav" => harmonium[68];
-me.dir() + "/harmonium/da2.wav" => harmonium[70];
-me.dir() + "/harmonium/ni2.wav" => harmonium[71];
-me.dir() + "/harmonium/sahi.wav" => harmonium[73];
-me.dir() + "/harmonium/ri2hi.wav" => harmonium[75];
-me.dir() + "/harmonium/ni2lo.wav" => harmonium[59];
-me.dir() + "/harmonium/palo.wav" => harmonium[56];
-
-
-// couldnt find lower and hgher notes here. fail
 string female[80];
 // array of wav files at resp. midi note indexes
-me.dir() + "/female/sa.wav" => female[61];
-me.dir() + "/female/ri2.wav" => female[63];
-me.dir() + "/female/ga2.wav" => female[64];
-me.dir() + "/female/ma1.wav" => female[66];
-me.dir() + "/female/pa.wav" => female[68];
-me.dir() + "/female/da2.wav" => female[70];
-me.dir() + "/female/ni2.wav" => female[71];
-me.dir() + "/female/sahi.wav" => female[73];
-me.dir() + "/female/ri2hi.wav" => female[75];
-me.dir() + "/female/ni2lo.wav" => female[59];
-me.dir() + "/female/palo.wav" => female[56];
+me.dir() + "/wavfiles/female/sa.wav" => female[61];
+me.dir() + "/wavfiles/female/ri2.wav" => female[63];
+me.dir() + "/wavfiles/female/ga2.wav" => female[64];
+me.dir() + "/wavfiles/female/ma1.wav" => female[66];
+me.dir() + "/wavfiles/female/pa.wav" => female[68];
+me.dir() + "/wavfiles/female/da2.wav" => female[70];
+me.dir() + "/wavfiles/female/ni2.wav" => female[71];
+me.dir() + "/wavfiles/female/sahi.wav" => female[73];
+me.dir() + "/wavfiles/female/ri2hi.wav" => female[75];
+me.dir() + "/wavfiles/female/ni2lo.wav" => female[59];
+me.dir() + "/wavfiles/female/palo.wav" => female[56];
 
 
 fun void play_swara(int note, int duration) {
@@ -519,7 +459,6 @@ fun void play_voice() {
 		swara[i][0] => int note1;
 		if (note1 == 0) {
 			<<< "silence" >>>;
-			0 => m.noteOn;
 			swara[i][1] * tempo::second => now;
 		} else {
 			swara[i][1] => int duration;
@@ -528,92 +467,17 @@ fun void play_voice() {
 	}
 }
 
-SndBuf t1 => dac;
-SndBuf t2 => dac;
-SndBuf t3 => dac;
-SndBuf t4 => dac;
-SndBuf t5 => dac;
-
-0.12 * 2 => float t_tempo;
-
-string tabla[20];
-me.dir() + "/tabla/dha.wav" => tabla[0];
-me.dir() + "/tabla/dhin.wav" => tabla[1];
-me.dir() + "/tabla/na.wav" => tabla[2];
-me.dir() + "/tabla/ka.wav" => tabla[3];
-me.dir() + "/tabla/tin.wav" => tabla[4];
-
-fun void play_tabla() {	
-	while (true) {
-		// dhin
-		tabla[1] => t2.read;
-		0 => t2.pos;
-		2 * t_tempo::second => now;
-		
-		// dha
-		tabla[0] => t1.read;
-		0 => t1.pos;
-		1 * t_tempo::second => now;
-		
-		// dhin
-		0 => t2.pos;
-		2 * t_tempo::second => now;
-		
-		// dhin
-		0 => t2.pos;
-		1 * t_tempo::second => now;
-		
-		// na
-		tabla[2] => t3.read;
-		0 => t3.pos;
-		1 * t_tempo::second => now;
-		
-		// ka
-		tabla[3] => t4.read;
-		0 => t4.pos;
-		1 * t_tempo::second => now;
-		
-		
-		// dhin
-		tabla[1] => t2.read;
-		0 => t2.pos;
-		2 * t_tempo::second => now;
-		
-		// dha
-		tabla[0] => t1.read;
-		0 => t1.pos;
-		1 * t_tempo::second => now;
-		
-		// tin
-		tabla[4] => t5.read;
-		0 => t5.pos;
-		2 * t_tempo::second => now;
-		
-		// tin
-		0 => t5.pos;
-		1 * t_tempo::second => now;
-		
-		// na
-		tabla[2] => t3.read;
-		0 => t3.pos;
-		1 * t_tempo::second => now;
-		
-		// ka
-		tabla[3] => t4.read;
-		0 => t4.pos;
-		1 * t_tempo::second => now;
-	}
-}
-
 
 // spawn shreads from functions
 // optionally, Machine.add(another_file.ck) can be used
-spork ~play_voice();
-spork ~play_instrument1();
-spork ~play_tabla();
+
 
 // wait for all sporks by an infinite loop
 // as   in chuck manual page 65
+
+/*
 while(true) {
-    1::second=>now;
-}
+	1::second=>now;
+}*/
+
+play_voice();

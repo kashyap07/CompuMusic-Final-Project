@@ -1,4 +1,4 @@
-SndBuf tanpura=>dac;
-me.dir()+"/tanpura_full.wav"=>tanpura.read;
-0.1=>tanpura.gain;
-60::second=>now;
+SndBuf tanpura => dac;
+me.dir() + "/wavfiles/tanpura_G.wav" => tanpura.read;
+0.01 => tanpura.gain;
+60::second => now;
