@@ -1,12 +1,12 @@
-ModalBar s=>dac;
-220=>s.freq;
+// basic modal bar clicks
 
-1=>s.preset;
-0.15=>s.gain;
+ModalBar s => dac;
+196 => s.freq;
 
-//for(0=>int i;i<112;++i)
-repeat(112)
-{
-    1=>s.noteOn;
-    0.8::second=>now;
+1 => s.preset;
+0.2 => s.gain;
+
+repeat (112) {
+    1 => s.noteOn;
+    0.12 * 8::second => now;
 }
