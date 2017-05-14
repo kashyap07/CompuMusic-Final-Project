@@ -6,7 +6,7 @@ ModalBar s => dac;
 1 => s.preset;
 0.2 => s.gain;
 
-repeat (112) {
+repeat (110) {
     1 => s.noteOn;
     0.12 * 8::second => now;
 }

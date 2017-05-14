@@ -19,7 +19,7 @@
 
 <<< "starting tanpura" >>>;
 Machine.add(me.dir() + "/tanpura.ck") => int tanpura_id;
-2::second => now;
+4::second => now;
 
 <<< "starting modal" >>>;
 Machine.add(me.dir() + "/endaro_modal_bar.ck") => int modal_bar_id;

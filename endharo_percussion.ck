@@ -31,7 +31,7 @@ me.dir() + "/wavfiles/tabla/ka.wav" => tabla[3];
 me.dir() + "/wavfiles/tabla/tin.wav" => tabla[4];
 
 fun void play_tabla() {	
-	repeat (112) {
+	repeat (20) {
 		// dhin
 		tabla[1] => t2.read;
 		0 => t2.pos;
